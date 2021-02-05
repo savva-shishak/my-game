@@ -62,7 +62,6 @@ public class NavigatorScript implements Script {
         if (map[targetCell.x][targetCell.y] != 0) {
             targetCell.isView = true;
             route.path = Navigate.immersion(map, finish, (int) world.width, (int) world.height);
-            route.path.remove(route.path.size() - 1);
         }
     }
 }
