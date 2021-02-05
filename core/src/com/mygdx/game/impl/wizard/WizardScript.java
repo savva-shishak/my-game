@@ -46,14 +46,25 @@ public class WizardScript implements Script {
 
             float distance = 5.0f * deltaTime;
 
-            if (last.x > wizard.x) {
+            if (last.x - distance > wizard.x) {
                 wizard.x += distance;
                 wizard.direction = Wizard.Direction.RIGHT;
 
-            } else if (last.x < wizard.x) {
+            } else if (last.x + distance < wizard.x) {
                 wizard.x -= distance;
                 wizard.direction = Wizard.Direction.LEFT;
 
+
+            }  else if (last.y - distance > wizard.y) {
+                wizard.y += distance;
+                wizard.direction = Wizard.Direction.BACK;
+
+
+            }  else if (last.y + distance < wizard.y) {
+                wizard.y -= distance;
+            } else {
+                route.path.remove(last);
+                moveByRoute(deltaTime);
             }
         }
     }

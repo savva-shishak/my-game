@@ -1,6 +1,7 @@
 package volnovoialgoritm;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Navigate {
 
@@ -48,37 +49,36 @@ public class Navigate {
     public static ArrayList<Point> immersion(int [][] map, final Point target, int width, int height) {
         ArrayList<Point> path = new ArrayList<Point>() {{add(target);}};
         Point current = target;
+        Random random = new Random();
 
         while (map[current.x][current.y] != 1) {
             current = path.get(path.size() - 1);
+            int randomNext = random.nextInt(4);
 
             int x = current.x;
             int y = current.y;
             int value = map[current.x][current.y];
             int nextX = x, nextY = y;
 
-            selectsNext:{
-                if (x < width - 1 && map[x + 1][y] == value - 1) {
-                    nextX = x + 1;
-                    break selectsNext;
-                }
-                if (x > 0 && map[x - 1][y] == value - 1) {
-                    nextX = x - 1;
-                    break selectsNext;
-                }
-                if (y < height - 1 && map[x][y + 1] == value - 1) {
-                    nextY = y + 1;
-                    break selectsNext;
-                }
-                if (y > 0 && map[x][y - 1] == value - 1) {
-                    nextY = y - 1;
-                }
+            if (y > 0 && map[x][y - 1] == value - 1 && randomNext == 0) {
+                nextY = y - 1;
             }
+            if (x > 0 && map[x - 1][y] == value - 1 && randomNext == 1) {
+                nextX = x - 1;
+            }
+
+            if (x < width - 1 && map[x + 1][y] == value - 1 && randomNext == 2) {
+                nextX = x + 1;
+            }
+
+            if (y < height - 1 && map[x][y + 1] == value - 1 && randomNext == 3) {
+                nextY = y + 1;
+            }
+
 
             path.add(new Point(nextX, nextY));
         }
 
         return path;
     }
-
 }

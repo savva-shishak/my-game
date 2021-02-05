@@ -24,7 +24,6 @@ public class TargetCellModule extends ModuleAdapter {
 
         navigatorScript = new NavigatorScript(route, world, model);
 
-        scripts.add(new TargetCellScript(model, world));
         scripts.add(navigatorScript);
 
         views.add(new TargetCellView(model, route));
