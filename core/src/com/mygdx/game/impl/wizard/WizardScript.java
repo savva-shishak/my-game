@@ -5,12 +5,15 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.impl.main.World;
+import com.mygdx.game.impl.targetcell.Route;
 import com.mygdx.game.interfaces.Script;
+import volnovoialgoritm.Point;
 
 public class WizardScript implements Script {
 
     private final Wizard wizard;
     private final World world;
+    private Route route;
 
     public WizardScript(Wizard wizard, World world) {
         this.wizard = wizard;
@@ -20,36 +23,11 @@ public class WizardScript implements Script {
     @Override
     public void init() {
 
-        OrthographicCamera camera = world.camera;
-
-//        camera.zoom /= 4;
-//
-//        camera.update();
     }
 
     @Override
     public void update(float deltaTime) {
-        float distance = 5.0f * deltaTime;
-
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            wizard.direction = Wizard.Direction.LEFT;
-            wizard.x -= distance;
-
-        } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            wizard.direction = Wizard.Direction.RIGHT;
-            wizard.x += distance;
-
-        } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            wizard.direction = Wizard.Direction.BACK;
-            wizard.y += distance;
-
-        } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            wizard.direction = Wizard.Direction.FRONT;
-            wizard.y -= distance;
-
-        } else {
-            wizard.direction = Wizard.Direction.FRONT;
-        }
+        moveByRoute(deltaTime);
 
         OrthographicCamera camera = world.camera;
 
@@ -58,6 +36,26 @@ public class WizardScript implements Script {
 
         alignWizard();
         alignCamera();
+    }
+
+    private void moveByRoute(float deltaTime) {
+        wizard.direction = Wizard.Direction.FRONT;
+
+        if (route.path.size() != 0) {
+            Point last = route.path.get(route.path.size() - 1);
+
+            float distance = 5.0f * deltaTime;
+
+            if (last.x > wizard.x) {
+                wizard.x += distance;
+                wizard.direction = Wizard.Direction.RIGHT;
+
+            } else if (last.x < wizard.x) {
+                wizard.x -= distance;
+                wizard.direction = Wizard.Direction.LEFT;
+
+            }
+        }
     }
 
     private void alignWizard() {
@@ -101,5 +99,9 @@ public class WizardScript implements Script {
         }
 
         world.camera.update();
+    }
+
+    public void setRoute(Route route) {
+        this.route = route;
     }
 }

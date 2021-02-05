@@ -15,7 +15,7 @@ public abstract class ModuleAdapter implements Module {
     protected void beforeInit() {};
 
     @Override
-    public final void init() {
+    public void init() {
         beforeInit();
         for (Module m : children) {
             m.init();

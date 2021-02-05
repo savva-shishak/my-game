@@ -2,9 +2,16 @@ package com.mygdx.game.impl.targetcell;
 
 import com.mygdx.game.impl.adapters.ModuleAdapter;
 import com.mygdx.game.impl.main.World;
+import com.mygdx.game.impl.wizard.Wizard;
 
 public class TargetCellModule extends ModuleAdapter {
-    private World world;
+    private final World world;
+
+    private TargetCell model;
+    private Route route;
+
+    private NavigatorScript navigatorScript;
+
 
     public TargetCellModule(World world) {
         this.world = world;
@@ -12,9 +19,22 @@ public class TargetCellModule extends ModuleAdapter {
 
     @Override
     protected void beforeInit() {
-        TargetCell cell = new TargetCell();
+        model = new TargetCell();
+        route = new Route(model);
 
-        scripts.add(new TargetCellScript(cell, world));
-        views.add(new TargetCellView(cell));
+        navigatorScript = new NavigatorScript(route, world, model);
+
+        scripts.add(new TargetCellScript(model, world));
+        scripts.add(navigatorScript);
+
+        views.add(new TargetCellView(model, route));
+    }
+
+    public Route getRoute() {
+        return route;
+    }
+
+    public void setWizard(Wizard wizard) {
+        navigatorScript.setWizard(wizard);
     }
 }
