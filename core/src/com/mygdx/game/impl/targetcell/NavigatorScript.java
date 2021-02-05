@@ -16,12 +16,13 @@ public class NavigatorScript implements Script {
     private final World world;
 
     private final TargetCell targetCell;
-    private Wizard wizard;
+    private final Wizard wizard;
 
-    public NavigatorScript(Route route, World world, TargetCell targetCell) {
+    public NavigatorScript(Route route, World world, TargetCell targetCell, Wizard wizard) {
         this.route = route;
         this.world = world;
         this.targetCell = targetCell;
+        this.wizard = wizard;
     }
 
     @Override
@@ -63,9 +64,5 @@ public class NavigatorScript implements Script {
             route.path = Navigate.immersion(map, finish, (int) world.width, (int) world.height);
             route.path.remove(route.path.size() - 1);
         }
-    }
-
-    public void setWizard(Wizard wizard) {
-        this.wizard = wizard;
     }
 }

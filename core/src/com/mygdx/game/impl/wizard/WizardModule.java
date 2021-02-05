@@ -6,28 +6,19 @@ import com.mygdx.game.impl.targetcell.Route;
 
 public class WizardModule extends ModuleAdapter {
     private final World world;
-    private Wizard model;
-    private WizardScript script;
+    private final Wizard wizard;
+    private final Route route;
 
-    public WizardModule(World world) {
+    public WizardModule(World world, Wizard wizard, Route route) {
         this.world = world;
+        this.wizard = wizard;
+        this.route = route;
     }
 
     @Override
     protected void beforeInit() {
-        Wizard wizard = new Wizard();
-        model = wizard;
-        script = new WizardScript(wizard, world);
 
         views.add(new WizardView(wizard));
-        scripts.add(script);
-    }
-
-    public Wizard getModel() {
-        return model;
-    }
-
-    public void setRoute(Route route) {
-        script.setRoute(route);
+        scripts.add(new WizardScript(wizard, world, route));
     }
 }

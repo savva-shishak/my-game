@@ -6,34 +6,21 @@ import com.mygdx.game.impl.wizard.Wizard;
 
 public class TargetCellModule extends ModuleAdapter {
     private final World world;
-
-    private TargetCell model;
-    private Route route;
-
-    private NavigatorScript navigatorScript;
+    private final Route route;
+    private final Wizard wizard;
+    private final TargetCell targetCell;
 
 
-    public TargetCellModule(World world) {
+    public TargetCellModule(World world, Route route, Wizard wizard, TargetCell targetCell) {
         this.world = world;
+        this.route = route;
+        this.wizard = wizard;
+        this.targetCell = targetCell;
     }
 
     @Override
     protected void beforeInit() {
-        model = new TargetCell();
-        route = new Route(model);
-
-        navigatorScript = new NavigatorScript(route, world, model);
-
-        scripts.add(navigatorScript);
-
-        views.add(new TargetCellView(model, route));
-    }
-
-    public Route getRoute() {
-        return route;
-    }
-
-    public void setWizard(Wizard wizard) {
-        navigatorScript.setWizard(wizard);
+        scripts.add(new NavigatorScript(route, world, targetCell, wizard));
+        views.add(new TargetCellView(targetCell, route));
     }
 }

@@ -8,8 +8,7 @@ import com.mygdx.game.impl.wizard.WizardModule;
 public class MainModule extends ModuleAdapter {
     private final World world;
 
-    WizardModule wizard;
-    TargetCellModule targetCell;
+    Context context;
 
     public MainModule(World world) {
         this.world = world;
@@ -17,21 +16,10 @@ public class MainModule extends ModuleAdapter {
 
     @Override
     public void beforeInit() {
-        LandScapeModule landScape   = new LandScapeModule(world);
-        wizard         = new WizardModule(world);
-        targetCell = new TargetCellModule(world);
+        context = new Context(world);
 
-
-        children.add(landScape);
-        children.add(targetCell);
-        children.add(wizard);
-    }
-
-    @Override
-    public void init() {
-        super.init();
-
-        wizard.setRoute(targetCell.getRoute());
-        targetCell.setWizard(wizard.getModel());
+        children.add(new LandScapeModule(world));
+        children.add( new TargetCellModule(world, context.route, context.wizard, context.targetCell));
+        children.add(new WizardModule(world, context.wizard, context.route));
     }
 }

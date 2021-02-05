@@ -1,7 +1,5 @@
 package com.mygdx.game.impl.wizard;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.impl.main.World;
@@ -13,11 +11,12 @@ public class WizardScript implements Script {
 
     private final Wizard wizard;
     private final World world;
-    private Route route;
+    private final Route route;
 
-    public WizardScript(Wizard wizard, World world) {
+    public WizardScript(Wizard wizard, World world, Route route) {
         this.wizard = wizard;
         this.world = world;
+        this.route = route;
     }
 
     @Override
@@ -110,9 +109,5 @@ public class WizardScript implements Script {
         }
 
         world.camera.update();
-    }
-
-    public void setRoute(Route route) {
-        this.route = route;
     }
 }
